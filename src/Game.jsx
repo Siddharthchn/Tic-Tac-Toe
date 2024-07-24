@@ -11,6 +11,7 @@ const Game = () => {
   const [board, setBoard] = useState(initialState);
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [winner, setWinner] = useState(null);
+  const [showStartMessage, setShowStartMessage] = useState(true);
 
   useEffect(() => {
     checkWinner();
@@ -39,6 +40,7 @@ const Game = () => {
     newBoard[index] = 'X';
     setBoard(newBoard);
     setIsPlayerTurn(false);
+    setShowStartMessage(false); // Hide the start message
 
     // Animate the cell with GSAP
     gsap.fromTo(
@@ -129,6 +131,7 @@ const Game = () => {
     setBoard(initialState);
     setIsPlayerTurn(true);
     setWinner(null);
+    setShowStartMessage(true); // Show the start message again
     toast.dismiss(); // Dismiss any existing toast notifications
   };
 
@@ -142,6 +145,11 @@ const Game = () => {
       }}
     >
       <h1 className="text-4xl font-bold text-white mb-8">Tic-Tac-Toe</h1>
+      {showStartMessage && (
+        <div className="absolute top-0 left-0 right-0 mt-4 text-center">
+          <p className="text-xl text-white font-semibold">Click on a box to start playing!</p>
+        </div>
+      )}
       <div className="relative w-80 h-80 mb-4">
         <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 border-2">
           {board.map((cell, index) => (
